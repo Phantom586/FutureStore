@@ -15,6 +15,16 @@ class ProductCubit extends Cubit<ProductState> {
   Future<void> fetchProducts() async {
     emit(const ProductListLoading());
 
-    final data = await productRepository.fetchProducts();
+    final productsList = await productRepository.fetchProducts();
+    emit(ProductState.loaded(productsList: productsList));
+  }
+
+  Future<void> addToCart(Map<String, dynamic> data) async {
+    emit(const ProductListLoading());
+
+    await productRepository.addToCart(data);
+
+    final productsList = await productRepository.fetchProducts();
+    emit(ProductState.loaded(productsList: productsList));
   }
 }

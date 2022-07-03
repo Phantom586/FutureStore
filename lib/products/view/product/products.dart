@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:future_store/connectivity/cubit/internet_cubit.dart';
 import 'package:future_store/products/cubit/product_cubit.dart';
+import 'package:future_store/products/view/product/products_list_view.dart';
 import 'package:future_store/shared/theme.dart';
 
 class Products extends StatefulWidget {
@@ -14,7 +15,7 @@ class Products extends StatefulWidget {
 class _ProductsState extends State<Products> {
   @override
   Widget build(BuildContext context) {
-    return BlocListener(
+    return BlocListener<InternetCubit, InternetState>(
       listener: (context, state) {
         if (state is InternetConnected) {
           context.read<ProductCubit>().fetchProducts();
@@ -54,8 +55,10 @@ class _ProductsState extends State<Products> {
                       ),
                     ),
                     IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.search_outlined),
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/cart');
+                      },
+                      icon: const Icon(Icons.shopping_cart),
                     ),
                   ],
                 ),
@@ -66,15 +69,31 @@ class _ProductsState extends State<Products> {
                   padding: const EdgeInsets.symmetric(
                     horizontal: 10,
                   ),
-                  child: Column(
-                    children: [
-                      Text(
-                        'DISCOVER',
-                        style: Theme.of(context).textTheme.headline1!.copyWith(
-                              color: Colors.black,
-                            ),
-                      ),
-                    ],
+                  child: Text(
+                    'DISCOVER',
+                    style: Theme.of(context).textTheme.headline1!.copyWith(
+                          color: Colors.black,
+                        ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: BlocBuilder<ProductCubit, ProductState>(
+                      builder: (context, state) {
+                        return state.when(
+                            loading: () {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            },
+                            loaded: (productsList) =>
+                                ProductsListView(productsList: productsList));
+                      },
+                    ),
                   ),
                 )
               ],

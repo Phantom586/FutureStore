@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:future_store/cart/cart.dart';
-import 'package:future_store/products/view/products.dart';
+import 'package:future_store/products/view/product/products.dart';
+import 'package:future_store/profile/profile.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -10,7 +10,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final List<Widget> _screensList = const [Products(), Cart()];
+  final List<Widget> _screensList = const [Products(), ProfileView()];
   int _currerntIndex = 0;
 
   @override
@@ -32,11 +32,9 @@ class _HomeState extends State<Home> {
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              _currerntIndex == 1
-                  ? Icons.shopping_cart
-                  : Icons.shopping_cart_outlined,
+              _currerntIndex == 1 ? Icons.person : Icons.person_outline,
             ),
-            label: 'Cart',
+            label: 'Profile',
           )
         ],
       ),

@@ -13,4 +13,23 @@ class ProductApi {
       return data;
     }
   }
+
+  static Future<dynamic> fetchProductDetails(int id) async {
+    final response = await http.get(Uri.parse('$url/products/$id'));
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      return data;
+    }
+  }
+
+  static Future<dynamic> addToCart(Map<String, dynamic> data) async {
+    var body = jsonEncode(data);
+    final response = await http.post(Uri.parse('$url/carts'), body: body);
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      return data;
+    }
+  }
 }

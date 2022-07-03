@@ -1,5 +1,15 @@
-class Product {
-  Product({
+import 'dart:convert';
+
+import 'package:equatable/equatable.dart';
+
+List<Product> productFromJson(String str) =>
+    List<Product>.from(json.decode(str).map((x) => Product.fromJson(x)));
+
+String productToJson(List<Product> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+
+class Product extends Equatable {
+  const Product({
     this.id,
     this.title,
     this.price,
@@ -9,54 +19,58 @@ class Product {
     this.rating,
   });
 
-  Product.fromJson(Map<String, dynamic> json) {
-    id = json['id'] as int;
-    title = json['title'] as String;
-    price = json['price'] as double;
-    description = json['description'] as String;
-    category = json['category'] as String;
-    image = json['image'] as String;
-    rating = json['rating'] != null
-        ? Rating.fromJson(json['rating'] as Map<String, dynamic>)
-        : null;
-  }
-  int? id;
-  String? title;
-  double? price;
-  String? description;
-  String? category;
-  String? image;
-  Rating? rating;
+  final int? id;
+  final String? title;
+  final double? price;
+  final String? description;
+  final String? category;
+  final String? image;
+  final Rating? rating;
 
-  Map<String, dynamic> toJson() {
-    final data = <String, dynamic>{};
-    data['id'] = id;
-    data['title'] = title;
-    data['price'] = price;
-    data['description'] = description;
-    data['category'] = category;
-    data['image'] = image;
-    if (rating != null) {
-      data['rating'] = rating!.toJson();
-    }
-    return data;
-  }
+  factory Product.fromJson(Map<String, dynamic> json) => Product(
+        id: json["id"],
+        title: json["title"],
+        price: json["price"].toDouble(),
+        description: json["description"],
+        category: json["category"],
+        image: json["image"],
+        rating: Rating.fromJson(json["rating"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "title": title,
+        "price": price,
+        "description": description,
+        "category": category,
+        "image": image,
+        "rating": rating!.toJson(),
+      };
+
+  @override
+  List<Object?> get props =>
+      [id, title, price, description, category, image, rating];
 }
 
-class Rating {
-  Rating({this.rate, this.count});
+class Rating extends Equatable {
+  const Rating({
+    this.rate,
+    this.count,
+  });
 
-  Rating.fromJson(Map<String, dynamic> json) {
-    rate = json['rate'] as double;
-    count = json['count'] as int;
-  }
-  double? rate;
-  int? count;
+  final double? rate;
+  final int? count;
 
-  Map<String, dynamic> toJson() {
-    final data = <String, dynamic>{};
-    data['rate'] = rate;
-    data['count'] = count;
-    return data;
-  }
+  factory Rating.fromJson(Map<String, dynamic> json) => Rating(
+        rate: json["rate"].toDouble(),
+        count: json["count"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "rate": rate,
+        "count": count,
+      };
+
+  @override
+  List<Object?> get props => [rate, count];
 }
