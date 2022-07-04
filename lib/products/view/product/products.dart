@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:future_store/connectivity/cubit/internet_cubit.dart';
 import 'package:future_store/products/cubit/product_cubit.dart';
+import 'package:future_store/products/view/product/product_shimmer.dart';
 import 'package:future_store/products/view/product/products_list_view.dart';
 import 'package:future_store/shared/theme.dart';
 
@@ -85,13 +86,12 @@ class _ProductsState extends State<Products> {
                     child: BlocBuilder<ProductCubit, ProductState>(
                       builder: (context, state) {
                         return state.when(
-                            loading: () {
-                              return const Center(
-                                child: CircularProgressIndicator(),
-                              );
-                            },
-                            loaded: (productsList) =>
-                                ProductsListView(productsList: productsList));
+                          loading: () {
+                            return const ProductShimmer();
+                          },
+                          loaded: (productsList) =>
+                              ProductsListView(productsList: productsList),
+                        );
                       },
                     ),
                   ),

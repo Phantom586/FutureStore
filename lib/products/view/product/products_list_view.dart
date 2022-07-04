@@ -111,7 +111,7 @@ class _ProductsListViewState extends State<ProductsListView> {
                         'assets/icons/add_to_cart.png',
                         width: 24,
                       ),
-                    )
+                    ),
                   ],
                 ),
               ],

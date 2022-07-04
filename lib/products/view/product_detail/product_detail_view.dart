@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:future_store/cart/cart_repository.dart';
+import 'package:future_store/cart/cubit/cart_cubit.dart';
 import 'package:future_store/cart/views/cart.dart';
 import 'package:future_store/products/cubit/product_details_cubit.dart';
 import 'package:future_store/products/model/product.dart';
@@ -137,7 +139,11 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const Cart(),
+                        builder: (context) => BlocProvider(
+                          create: (context) =>
+                              CartCubit(cartRepository: const CartRepository()),
+                          child: const Cart(),
+                        ),
                       ),
                     );
                   },

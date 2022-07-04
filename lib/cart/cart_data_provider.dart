@@ -6,7 +6,6 @@ class CartApi {
 
   static Future<dynamic> fetchCartItems() async {
     final response = await http.get(Uri.parse('$url/carts/user/1'));
-    print("Cart Response: ${response.body}");
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);

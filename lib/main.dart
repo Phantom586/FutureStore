@@ -7,7 +7,6 @@ import 'package:future_store/cart/views/cart.dart';
 import 'package:future_store/connectivity/cubit/internet_cubit.dart';
 import 'package:future_store/home/view/home.dart';
 import 'package:future_store/products/cubit/product_cubit.dart';
-import 'package:future_store/products/cubit/product_details_cubit.dart';
 import 'package:future_store/products/product_data_repository.dart';
 import 'package:future_store/shared/theme.dart';
 

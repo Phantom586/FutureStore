@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:future_store/products/model/product.dart';
 
 class CartView extends StatefulWidget {
@@ -42,16 +41,30 @@ class _CartViewState extends State<CartView> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          widget.productsList[index].title!,
-                          style: Theme.of(context).textTheme.bodySmall,
+                        RichText(
+                          text: TextSpan(
+                            text: widget.productsList[index].title!,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall!
+                                .copyWith(color: Colors.black),
+                            children: [
+                              TextSpan(
+                                text: ' x1',
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              )
+                            ],
+                          ),
                         ),
                         const SizedBox(
                           height: 10,
                         ),
                         Text(
                           '\$${widget.productsList[index].price!}',
-                          style: Theme.of(context).textTheme.bodyText1,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(fontSize: 16),
                         ),
                       ],
                     ),
