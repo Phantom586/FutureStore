@@ -4,6 +4,7 @@ import 'package:future_store/connectivity/cubit/internet_cubit.dart';
 import 'package:future_store/products/cubit/product_details_cubit.dart';
 import 'package:future_store/products/model/product.dart';
 import 'package:future_store/products/view/product_detail/product_detail_view.dart';
+import 'package:future_store/products/view/product_detail/product_details_shimmer.dart';
 
 class ProductDetails extends StatelessWidget {
   const ProductDetails({Key? key, required this.product}) : super(key: key);
@@ -36,22 +37,22 @@ class ProductDetails extends StatelessWidget {
         body: SafeArea(
             child: BlocBuilder<ProductDetailsCubit, ProductDetailsState>(
           builder: (context, state) {
-            return state.when(initial: () {
-              context
-                  .read<ProductDetailsCubit>()
-                  .getProductDetails(product.id!);
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }, loading: () {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }, loaded: (productDetails) {
-              return ProductDetailView(
-                product: productDetails,
-              );
-            });
+            return state.when(
+              initial: () {
+                context
+                    .read<ProductDetailsCubit>()
+                    .getProductDetails(product.id!);
+                return const ProductDetailsShimmer();
+              },
+              loading: () {
+                return const ProductDetailsShimmer();
+              },
+              loaded: (productDetails) {
+                return ProductDetailView(
+                  product: productDetails,
+                );
+              },
+            );
           },
         )),
       ),
